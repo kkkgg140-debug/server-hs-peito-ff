@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-# Configurações de HS + Comando de Skip (Pular Download)
+# Configurações de HS + Comando de Skip
 CONFIG_HS = {
     "verAddr": "Ativo", 
     "hs_value": "1.0", 
@@ -13,25 +13,19 @@ CONFIG_HS = {
     "auto_headshot": "true",
     "skipResourceDownload": "true",
     "skipUpdate": "true",
-    "updateVersion": "2.0"
+    "updateVersion": "1.100.0"
 }
 
 @app.route('/')
-def home():
-    if os.path.exists('index.html'):
-        return send_from_directory('.', 'index.html')
-    return jsonify(CONFIG_HS)
-
-@app.route('/config')
-def config():
-    return jsonify(CONFIG_HS)
-
+@app.route('/version.json')
+@app.route('/config.json')
 @app.route('/ver')
-def ver():
+def home():
     return jsonify(CONFIG_HS)
 
 @app.route('/<path:path>')
 def catch_all(path):
+    # Retorna o JSON para qualquer arquivo que o APK pedir (.bin, .dat, .json)
     return jsonify(CONFIG_HS)
 
 if __name__ == '__main__':
