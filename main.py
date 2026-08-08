@@ -13,7 +13,7 @@ CONFIG_HS = {
     "auto_headshot": "true",
     "skipResourceDownload": "true",
     "skipUpdate": "true",
-    "updateVersion": "1.0.0"
+    "updateVersion": "2.0"
 }
 
 @app.route('/')
