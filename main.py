@@ -13,18 +13,28 @@ CONFIG_HS = {
     "auto_headshot": "true"
 }
 
+# Rota Principal (Site)
 @app.route('/')
 def home():
-    # Verifica se o index.html existe para mostrar o site, senão mostra o JSON
     if os.path.exists('index.html'):
         return send_from_directory('.', 'index.html')
     return jsonify(CONFIG_HS)
 
+# Rota de Configuração (Onde o jogo geralmente busca)
 @app.route('/config')
 def config():
     return jsonify(CONFIG_HS)
 
+# Rota de Verificação (Evita o Erro 404 no carregamento)
+@app.route('/ver')
+def ver():
+    return jsonify(CONFIG_HS)
+
+# Rota Genérica para qualquer outro pedido do jogo (Curinga)
+@app.route('/<path:path>')
+def catch_all(path):
+    return jsonify(CONFIG_HS)
+
 if __name__ == '__main__':
-    # CORREÇÃO AQUI: O Railway define a porta automaticamente
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
