@@ -3,34 +3,33 @@ import os
 
 app = Flask(__name__)
 
-# Configurações de HS e Antena
+# Configurações de HS + Comando de Skip (Pular Download)
 CONFIG_HS = {
     "verAddr": "Ativo", 
     "hs_value": "1.0", 
     "antena": "active", 
     "regedit": "enabled", 
     "precision": "max", 
-    "auto_headshot": "true"
+    "auto_headshot": "true",
+    "skipResourceDownload": "true",
+    "skipUpdate": "true",
+    "updateVersion": "1.0.0"
 }
 
-# Rota Principal (Site)
 @app.route('/')
 def home():
     if os.path.exists('index.html'):
         return send_from_directory('.', 'index.html')
     return jsonify(CONFIG_HS)
 
-# Rota de Configuração (Onde o jogo geralmente busca)
 @app.route('/config')
 def config():
     return jsonify(CONFIG_HS)
 
-# Rota de Verificação (Evita o Erro 404 no carregamento)
 @app.route('/ver')
 def ver():
     return jsonify(CONFIG_HS)
 
-# Rota Genérica para qualquer outro pedido do jogo (Curinga)
 @app.route('/<path:path>')
 def catch_all(path):
     return jsonify(CONFIG_HS)
